@@ -22,6 +22,9 @@ jobs:
         with:
           root_file: 陈源毅.tex
 
+      - name: Fix permissions after Docker compilation
+        run: sudo chmod -R a+rw .
+
       - name: Push PDF to release branch
         run: |
           git config --local user.email "action@github.com"
