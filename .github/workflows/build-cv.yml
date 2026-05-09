@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - '陈源毅.tex'
+      - '.github/workflows/build-cv.yml'
 
 jobs:
   build-cv:
