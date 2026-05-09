@@ -1,0 +1,35 @@
+name: Build LaTeX CV
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '陈源毅.tex'
+
+jobs:
+  build-cv:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Compile LaTeX CV
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: 陈源毅.tex
+
+      - name: Push PDF to release branch
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          cp 陈源毅.pdf /tmp/cv.pdf
+          git fetch origin release
+          git checkout release
+          cp /tmp/cv.pdf 陈源毅.pdf
+          git add 陈源毅.pdf
+          git diff --staged --quiet || git commit -m "Update CV PDF"
+          git push origin release
